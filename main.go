@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/mux"
@@ -30,7 +31,7 @@ var db *sql.DB
 
 func main() {
 
-	pgUrl, err := pq.ParseURL("postgres://mksgbdex:FIxXAWueImfruyFj5EzESozrNRgBIgJZ@lallah.db.elephantsql.com:5432/mksgbdex")
+	pgUrl, err := pq.ParseURL(os.Getenv("POSTGRES_USER_DB"))
 	if err != nil {
 		log.Fatal(err)
 	}
