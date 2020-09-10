@@ -163,7 +163,7 @@ func TokenVerifyMiddleWare(next http.HandlerFunc) http.HandlerFunc {
 				return
 			}
 		} else {
-			errorObj.Message = "invalid token."
+			errorObj.Message = "Invalid token."
 			respondWithError(res, http.StatusUnauthorized, errorObj)
 			return
 		}
