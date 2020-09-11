@@ -57,12 +57,12 @@ func signup(res http.ResponseWriter, req *http.Request) {
 	spew.Dump(user)
 
 	if user.Email == "" {
-		e.Message = "email missing"
+		e.Message = "Email missing."
 		respondWithError(res, http.StatusBadRequest, e)
 		return
 	}
 	if user.Password == "" {
-		e.Message = "password missing"
+		e.Message = "Password missing."
 		respondWithError(res, http.StatusBadRequest, e)
 		return
 	}
@@ -97,11 +97,11 @@ func login(res http.ResponseWriter, req *http.Request) {
 	json.NewDecoder(req.Body).Decode(&user)
 
 	if user.Email == "" {
-		error.Message = "Email is missing"
+		error.Message = "Email is missing."
 		respondWithError(res, http.StatusBadRequest, error)
 	}
 	if user.Password == "" {
-		error.Message = "Password is missing"
+		error.Message = "Password is missing."
 		respondWithError(res, http.StatusBadRequest, error)
 	}
 	password := user.Password
@@ -110,7 +110,7 @@ func login(res http.ResponseWriter, req *http.Request) {
 
 	if err != nil {
 		if err == sql.ErrNoRows {
-			error.Message = "user does not exist"
+			error.Message = "User does not exist."
 			respondWithError(res, http.StatusBadRequest, error)
 		} else {
 			log.Fatal(err)
@@ -120,7 +120,7 @@ func login(res http.ResponseWriter, req *http.Request) {
 	hashed := user.Password
 	err = bcrypt.CompareHashAndPassword([]byte(hashed), []byte(password))
 	if err != nil {
-		error.Message = "invalid password"
+		error.Message = "invalid password."
 		respondWithError(res, http.StatusUnauthorized, error)
 		return
 	}
@@ -146,7 +146,7 @@ func TokenVerifyMiddleWare(next http.HandlerFunc) http.HandlerFunc {
 			authToken := bearerToken[1]
 			token, error := jwt.Parse(authToken, func(token *jwt.Token) (interface{}, error) {
 				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-					return nil, fmt.Errorf("There was an error")
+					return nil, fmt.Errorf("There was an error.")
 				}
 				return []byte("secret"), nil
 			})
@@ -163,7 +163,7 @@ func TokenVerifyMiddleWare(next http.HandlerFunc) http.HandlerFunc {
 				return
 			}
 		} else {
-			errorObj.Message = "Invalid token."
+			errorObj.Message = "Invalid Token."
 			respondWithError(res, http.StatusUnauthorized, errorObj)
 			return
 		}
